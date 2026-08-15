@@ -799,6 +799,148 @@ table.data-table tbody tr.row-selected {
     grid-template-columns: 1fr;
   }
 }
+/* ---------- Home page ---------- */
+.hero {
+  text-align: center;
+  padding: 4rem 1.5rem 3.5rem;
+  margin: -2rem -1.5rem 2.5rem;
+  border-radius: 0 0 24px 24px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--color-accent) 16%, var(--color-bg)) 0%, var(--color-bg) 75%);
+}
+.hero-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin: 0 0 0.75rem;
+}
+.hero-title {
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  line-height: 1.1;
+  margin: 0 0 1rem;
+  max-width: 18ch;
+  margin-inline: auto;
+}
+.hero-subtitle {
+  color: var(--color-text-muted);
+  max-width: 62ch;
+  margin: 0 auto 2rem;
+  font-size: 1.05rem;
+}
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+}
+.feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.steps-section {
+  margin-bottom: 1.5rem;
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.step-card {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.5rem 1.5rem 1.75rem;
+}
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+/* ---------- Login page ---------- */
+.login-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 400px) minmax(280px, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  max-width: 920px;
+  margin: 0 auto;
+}
+@media (max-width: 760px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+  }
+}
+.login-accounts-column {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.login-account-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.login-account-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+.login-account-info {
+  min-width: 0;
+}
+.login-account-name {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.login-account-creds {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
 .calendar {
   max-width: 320px;
   border: 1px solid var(--color-border);

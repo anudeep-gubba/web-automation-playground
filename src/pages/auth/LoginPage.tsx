@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/ui/Checkbox'
 import { Button } from '@/components/ui/Button'
 import { Alert } from '@/components/ui/Alert'
 import { ROUTES } from '@/constants/routes'
+import { DEMO_ACCOUNTS } from '@/constants/auth'
 import { useAuth } from '@/hooks/useAuth'
 import { isRequired } from '@/utils/validation'
 import type { AuthErrorCode } from '@/types'
@@ -51,59 +52,94 @@ export function LoginPage() {
     navigate(from ?? ROUTES.dashboard, { replace: true })
   }
 
+  function quickFill(acc: (typeof DEMO_ACCOUNTS)[number]) {
+    setIdentifier(acc.identifier)
+    setPassword(acc.password)
+    setError(null)
+    setErrorCode(null)
+  }
+
   return (
-    <div data-testid="login-page" style={{ maxWidth: 420, margin: '0 auto' }}>
-      <h1 className="page-title">Login</h1>
-      <p className="page-description">Use one of the deterministic test accounts documented on the Home page.</p>
+    <div data-testid="login-page" className="login-layout">
+      <div className="login-form-column">
+        <h1 className="page-title">Login</h1>
+        <p className="page-description">Sign in, or use one of the demo accounts on the right to fill the form instantly.</p>
 
-      {error ? (
-        <Alert variant="error" testId={errorCode === 'ACCOUNT_LOCKED' ? 'login-error-locked' : 'login-error'}>
-          {error}
-        </Alert>
-      ) : null}
+        {error ? (
+          <Alert variant="error" testId={errorCode === 'ACCOUNT_LOCKED' ? 'login-error-locked' : 'login-error'}>
+            {error}
+          </Alert>
+        ) : null}
 
-      <form onSubmit={handleSubmit} noValidate data-testid="login-form">
-        <TextField
-          label="Email / Username"
-          required
-          value={identifier}
-          onChange={(e) => setIdentifier(e.target.value)}
-          id="login-email"
-          testId="login-email"
-          autoComplete="username"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          id="login-password"
-          testId="login-password"
-          autoComplete="current-password"
-        />
-        <Checkbox
-          label="Remember Me"
-          checked={rememberMe}
-          onChange={(e) => setRememberMe(e.target.checked)}
-          id="login-remember-me"
-          testId="login-remember-me"
-        />
-        <div className="form-actions">
-          <Button type="submit" testId="login-submit" loading={submitting}>
-            Login
-          </Button>
+        <form onSubmit={handleSubmit} noValidate data-testid="login-form">
+          <TextField
+            label="Email / Username"
+            required
+            value={identifier}
+            onChange={(e) => setIdentifier(e.target.value)}
+            id="login-email"
+            testId="login-email"
+            autoComplete="username"
+          />
+          <TextField
+            label="Password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            id="login-password"
+            testId="login-password"
+            autoComplete="current-password"
+          />
+          <Checkbox
+            label="Remember Me"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            id="login-remember-me"
+            testId="login-remember-me"
+          />
+          <div className="form-actions">
+            <Button type="submit" testId="login-submit" loading={submitting}>
+              Login
+            </Button>
+          </div>
+        </form>
+
+        <div className="mt-2" style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Link to={ROUTES.forgotPassword} data-testid="login-forgot-password-link">
+            Forgot Password?
+          </Link>
+          <Link to={ROUTES.register} data-testid="login-create-account-link">
+            Create Account
+          </Link>
         </div>
-      </form>
-
-      <div className="mt-2" style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Link to={ROUTES.forgotPassword} data-testid="login-forgot-password-link">
-          Forgot Password?
-        </Link>
-        <Link to={ROUTES.register} data-testid="login-create-account-link">
-          Create Account
-        </Link>
       </div>
+
+      <aside className="login-accounts-column" data-testid="login-test-accounts" aria-label="Demo accounts">
+        <h2 className="card-title">Demo Accounts</h2>
+        <p className="text-muted mt-1">Deterministic, non-real credentials. Click "Use" to autofill the form.</p>
+        <ul className="login-account-list">
+          {DEMO_ACCOUNTS.map((acc) => (
+            <li key={acc.username} className="login-account-item" data-testid={`login-account-${acc.username}`}>
+              <div className="login-account-info">
+                <div className="login-account-name">
+                  {acc.label}
+                  <span className={`badge ${acc.status === 'active' ? 'badge-active' : acc.status === 'unverified' ? 'badge-pending' : 'badge-inactive'}`}>
+                    {acc.status}
+                    {acc.role === 'admin' ? ' · admin' : ''}
+                  </span>
+                </div>
+                <div className="login-account-creds">
+                  {acc.identifier} · {acc.password}
+                </div>
+              </div>
+              <Button size="sm" variant="secondary" testId={`login-quickfill-${acc.username}`} onClick={() => quickFill(acc)}>
+                Use
+              </Button>
+            </li>
+          ))}
+        </ul>
+      </aside>
     </div>
   )
 }

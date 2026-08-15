@@ -98,3 +98,15 @@ export const SESSION_DURATION_MS = {
   rememberMe: 1000 * 60 * 60 * 24 * 30, // 30 days
   default: 1000 * 60 * 60 * 2, // 2 hours
 }
+
+// Display-friendly view of the seed accounts for the Login page's
+// "quick-fill" panel. Passwords are intentionally visible — these are
+// documented, non-real automation credentials, not production secrets.
+export const DEMO_ACCOUNTS = SEED_USERS.map((u) => ({
+  label: `${u.firstName} ${u.lastName}`,
+  identifier: u.email,
+  username: u.username,
+  password: u.password,
+  status: u.status,
+  role: u.role,
+}))

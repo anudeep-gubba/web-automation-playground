@@ -115,7 +115,8 @@ documented inline in each component and, for the most-used ones, in the table be
 ## Test accounts
 
 All accounts and codes are deterministic — reset them anytime from **Playground → Test Data → Reset Users
-to Seed Data** (this only resets user accounts; it does not affect other stored data).
+to Seed Data** (this only resets user accounts; it does not affect other stored data). The **Login page**
+also shows this list live with one-click "Use" buttons that autofill the form.
 
 | Account          | Email                     | Username          | Password       | State                |
 | ----------------- | -------------------------- | ------------------ | --------------- | --------------------- |
