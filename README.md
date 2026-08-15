@@ -215,17 +215,76 @@ could shift, random values, or anything else that would change between reloads o
 
 ## Local backend
 
-Only the **Network** and **WebSocket** modules use it. Everything else — authentication, forms, storage,
-DOM/UI modules — runs entirely client-side against `localStorage`/`sessionStorage`, so the app is usable
-fully offline without starting the backend.
+The browser UI (authentication, forms, storage, DOM/UI modules) runs entirely client-side against
+`localStorage`/`sessionStorage` and never needs the backend — the app is usable fully offline without
+starting it. The backend exists for two things:
+
+- The **Network** and **WebSocket** playground modules
+- A standalone **REST API** for practicing API testing (Postman, curl, RestAssured, requests, Playwright's
+  API testing mode, etc.), independent of the UI
 
 ```bash
 npm run server
 ```
 
-This starts an Express server on port 4000 exposing deterministic endpoints under `/api/network/*`
-(success, 400/401/403/404/500, delayed, timeout, empty, large) and a `/ws` WebSocket echo endpoint. See
-`server/index.js`.
+Starts an Express + `ws` server on `http://localhost:4000`. Visit `http://localhost:4000/api` for a live,
+self-describing list of every endpoint. Source: `server/app.js` (route wiring), `server/routes/*.js`
+(handlers), `server/data.js` (seed data + reset), `server/auth.js` (JWT middleware).
+
+### REST API
+
+All data is in-memory and deterministic — it resets to the seed state on server restart, or on demand via
+`POST /api/test/reset`. This store is **separate from the browser UI's** `localStorage`-based accounts (a
+Node process can't read a browser's storage), though the seed users below intentionally use the same
+emails/passwords as the UI's demo accounts, so the same credentials work in both places. One difference:
+accounts created via `POST /api/auth/register` are `active` immediately — there's no email-verification
+endpoint on the API (that flow only exists in the browser UI).
+
+| Resource | Endpoints |
+| --- | --- |
+| Auth | `POST /api/auth/register` · `POST /api/auth/login` · `GET /api/auth/me` · `POST /api/auth/logout` |
+| Users (admin-only list/write; self-or-admin read/update) | `GET/POST /api/users` · `GET/PUT/DELETE /api/users/:id` |
+| Products (public read; admin write) | `GET/POST /api/products` · `GET/PUT/DELETE /api/products/:id` |
+| Orders (auth required; own orders unless admin) | `GET/POST /api/orders` · `GET/PUT/DELETE /api/orders/:id` |
+| Network simulation | `GET /api/network/success` \| `/400` \| `/401` \| `/403` \| `/404` \| `/500` \| `/delayed` \| `/timeout` \| `/empty` \| `/large` |
+| Test utility | `POST /api/test/reset` — restores all seeded data |
+
+Auth uses a Bearer JWT (2h expiry): `Authorization: Bearer <token>`. Errors are consistently shaped as
+`{ "error": "SomeCode", "message": "...", "details"?: {...} }` with realistic status codes — 400
+(validation), 401 (missing/invalid/expired token or bad credentials), 403 (role/ownership), 404 (not
+found), 409 (conflict, e.g. duplicate email or cancelling a shipped order).
+
+Example session:
+
+```bash
+# Log in and capture a token
+curl -s -X POST http://localhost:4000/api/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"identifier":"standarduser","password":"User@123"}'
+# => { "token": "eyJ...", "user": { "id": "api-user-1", ... } }
+
+TOKEN="eyJ..."   # paste the token above
+
+# Who am I?
+curl -s http://localhost:4000/api/auth/me -H "Authorization: Bearer $TOKEN"
+
+# Browse products (no auth needed)
+curl -s "http://localhost:4000/api/products?category=Electronics&page=1&pageSize=5"
+
+# Place an order
+curl -s -X POST http://localhost:4000/api/orders \
+  -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
+  -d '{"productId":1,"quantity":2}'
+
+# Non-admin listing all users -> 403
+curl -s -o /dev/null -w "%{http_code}\n" http://localhost:4000/api/users -H "Authorization: Bearer $TOKEN"
+
+# Reset everything back to seed state
+curl -s -X POST http://localhost:4000/api/test/reset
+```
+
+Automated coverage lives in `tests/api/rest-api.test.js` (run via `npm test`), exercising the app directly
+with `supertest` — no real socket required.
 
 ## Scope boundary
 
