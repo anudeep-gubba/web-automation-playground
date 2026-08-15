@@ -60,6 +60,7 @@ import { TooltipsPopoversPage } from '@/pages/playground/tooltips-popovers/Toolt
 import { NotificationsPage } from '@/pages/playground/notifications/NotificationsPage'
 import { ConfirmationsPage } from '@/pages/playground/confirmations/ConfirmationsPage'
 import { TestDataPage } from '@/pages/playground/test-data/TestDataPage'
+import { ApiReferencePage } from '@/pages/playground/api-reference/ApiReferencePage'
 
 export function AppRoutes() {
   return (
@@ -130,6 +131,7 @@ export function AppRoutes() {
           <Route path={ROUTES.notifications} element={<NotificationsPage />} />
           <Route path={ROUTES.confirmations} element={<ConfirmationsPage />} />
           <Route path={ROUTES.testData} element={<TestDataPage />} />
+          <Route path={ROUTES.apiReference} element={<ApiReferencePage />} />
         </Route>
       </Route>
 

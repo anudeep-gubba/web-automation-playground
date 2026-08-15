@@ -106,7 +106,7 @@ tests live next to the module they test (e.g. `src/services/authService.test.ts`
 Scrolling, Drag & Drop, Lists, Tables, Dropdowns, Modals, Browser Dialogs, Iframes, Shadow DOM, Windows &
 Tabs, Upload & Download, Cookies, Local Storage, Session Storage, Browser History, Network, WebSocket,
 JavaScript, Accessibility, Responsive, Dynamic Elements, Advanced DOM, Date & Time, Rich Text, Search,
-Tooltips & Popovers, Notifications, Confirmations, Test Data.
+Tooltips & Popovers, Notifications, Confirmations, Test Data, API Reference.
 
 Every module page starts with a `data-testid` on its root container matching the route name (e.g.
 `data-testid="tables-page"`), and every interactive control within it has its own stable identifier —
@@ -164,6 +164,7 @@ Deterministic codes:
 /playground/drag-drop               /playground/notifications
 /playground/lists                   /playground/confirmations
 /playground/tables                  /playground/test-data
+                                     /playground/api-reference
 ```
 
 `/admin` and `/admin/users` require the `admin` role; standard users are redirected to `/access-denied`.
@@ -230,6 +231,10 @@ npm run server
 Starts an Express + `ws` server on `http://localhost:4000`. Visit `http://localhost:4000/api` for a live,
 self-describing list of every endpoint. Source: `server/app.js` (route wiring), `server/routes/*.js`
 (handlers), `server/data.js` (seed data + reset), `server/auth.js` (JWT middleware).
+
+The same reference is also browsable inside the app itself at **Playground → API Reference**
+(`/playground/api-reference`) — searchable, with each endpoint's method, auth requirement, example
+request/response, and a copy-pasteable curl command.
 
 ### REST API
 

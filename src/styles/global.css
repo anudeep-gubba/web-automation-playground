@@ -941,6 +941,52 @@ table.data-table tbody tr.row-selected {
   overflow-wrap: anywhere;
 }
 
+/* ---------- API Reference ---------- */
+.api-endpoint-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.api-endpoint {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.15rem 0.9rem;
+  background: var(--color-surface);
+}
+.api-endpoint[open] {
+  padding-bottom: 0.9rem;
+}
+.api-endpoint-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 0;
+  cursor: pointer;
+  list-style: none;
+  flex-wrap: wrap;
+}
+.api-endpoint-summary::-webkit-details-marker {
+  display: none;
+}
+.api-endpoint-path {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.api-endpoint-body {
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.75rem;
+}
+.api-endpoint-heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  margin: 0.9rem 0 0.35rem;
+}
+
 .calendar {
   max-width: 320px;
   border: 1px solid var(--color-border);

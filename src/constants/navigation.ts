@@ -42,4 +42,5 @@ export const PLAYGROUND_NAV: NavItem[] = [
   { label: 'Notifications', path: ROUTES.notifications, testId: 'nav-notifications' },
   { label: 'Confirmations', path: ROUTES.confirmations, testId: 'nav-confirmations' },
   { label: 'Test Data', path: ROUTES.testData, testId: 'nav-test-data' },
+  { label: 'API Reference', path: ROUTES.apiReference, testId: 'nav-api-reference' },
 ]

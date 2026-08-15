@@ -47,6 +47,7 @@ export const ROUTES = {
   notifications: '/playground/notifications',
   confirmations: '/playground/confirmations',
   testData: '/playground/test-data',
+  apiReference: '/playground/api-reference',
 
   errorDemo: '/errors',
 } as const
