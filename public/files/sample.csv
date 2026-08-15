@@ -1,0 +1,5 @@
+id,name,email,role,status
+1,Alex Smith,alex.smith1@example.com,Admin,Active
+2,Jordan Johnson,jordan.johnson2@example.com,Editor,Active
+3,Taylor Lee,taylor.lee3@example.com,Viewer,Pending
+4,Morgan Brown,morgan.brown4@example.com,Manager,Inactive

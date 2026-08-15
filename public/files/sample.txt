@@ -1,0 +1,5 @@
+Web Automation Playground - Sample Text File
+
+This is a deterministic, statically served plain-text file used to exercise
+file-download automation scenarios (verifying filename, content-type, and
+content).
